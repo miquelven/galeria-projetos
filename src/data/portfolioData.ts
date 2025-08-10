@@ -70,6 +70,56 @@ import {
   lojaRoupa5,
 } from "../assets/loja-roupa/index";
 
+import {
+  tatuador1,
+  tatuador2,
+  tatuador3,
+  tatuador4,
+  tatuador5,
+  tatuador6,
+  tatuador7,
+  tatuador8,
+  tatuador9,
+  tatuador10,
+  tatuador11,
+  tatuador12,
+  tatuador13,
+  tatuador14,
+  tatuador15,
+  tatuador16,
+  tatuador17,
+  tatuador18,
+  tatuador19,
+  tatuador20,
+  tatuador21,
+} from "../assets/tatuador/index";
+
+import {
+  petshop1,
+  petshop2,
+  petshop3,
+  petshop4,
+  petshop5,
+  petshop6,
+  petshop7,
+  petshop8,
+  petshop9,
+  petshop10,
+  petshop11,
+  petshop12,
+  petshop13,
+  petshop14,
+  petshop15,
+  petshop16,
+  petshop17,
+  petshop18,
+  petshop19,
+  petshop20,
+  petshop21,
+  petshop22,
+  petshop23,
+} from "../assets/pet-shop/index";
+
 export const categories = [
   {
     id: "restaurantes",
@@ -86,25 +136,25 @@ export const categories = [
       "Designs elegantes para salões, clínicas e profissionais da beleza",
   },
   {
+    id: "tatuagem",
+    name: "Estúdios de Tatuagem",
+    title: "Layouts para Estúdios de Tatuagem",
+    description:
+      "Designs artísticos e modernos para estúdios de tatuagem e tatuadores",
+  },
+  {
+    id: "petshop",
+    name: "Pet Shops",
+    title: "Layouts para Pet Shops e Veterinárias",
+    description:
+      "Designs carinhosos e profissionais para pet shops, clínicas veterinárias e serviços pet",
+  },
+  {
     id: "saude",
     name: "Saúde",
     title: "Layouts para Saúde e Bem-estar",
     description:
       "Designs profissionais para clínicas, consultórios e profissionais da saúde",
-  },
-  {
-    id: "automotivo",
-    name: "Automotivo",
-    title: "Layouts para Serviços Automotivos",
-    description:
-      "Designs robustos para oficinas, concessionárias e serviços automotivos",
-  },
-  {
-    id: "construcao",
-    name: "Construção",
-    title: "Layouts para Construção e Manutenção",
-    description:
-      "Designs sólidos para empresas de construção civil e manutenção",
   },
   {
     id: "fotografia",
@@ -120,32 +170,23 @@ export const categories = [
       "Designs energéticos para academias e profissionais de fitness",
   },
   {
-    id: "tecnologia",
-    name: "Tecnologia",
-    title: "Layouts para Segurança e Tecnologia",
-    description: "Designs modernos para empresas de tecnologia e segurança",
-  },
-  {
-    id: "agropecuaria",
-    name: "Agropecuária",
-    title: "Layouts para Agropecuária",
-    description: "Designs naturais para empresas do setor agropecuário",
-  },
-  {
     id: "comercio",
     name: "Comércio",
     title: "Layouts para Comércio e Lojas",
     description: "Designs atrativos para lojas e estabelecimentos comerciais",
   },
-  {
-    id: "digital",
-    name: "Serviços Digitais",
-    title: "Layouts para Serviços Digitais",
-    description: "Designs inovadores para agências digitais e freelancers",
-  },
 ];
 
-export const projects: Record<string, any[]> = {
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  demoUrl?: string;
+}
+
+export const projects: Record<string, Project[]> = {
   restaurantes: [
     {
       id: "rest-1",
@@ -287,6 +328,362 @@ export const projects: Record<string, any[]> = {
       demoUrl: "https://html-hair-dresser.vercel.app/",
     },
   ],
+  tatuagem: [
+    {
+      id: "tatuagem-1",
+      title: "Landing Page Estúdio de Tatuagem 1",
+      description: "",
+      image: tatuador1,
+      tags: [],
+      demoUrl: "https://tattoo-studio-navy.vercel.app/",
+    },
+    {
+      id: "tatuagem-2",
+      title: "Landing Page Estúdio de Tatuagem 2",
+      description: "",
+      image: tatuador2,
+      tags: [],
+      demoUrl: "https://tattoo-web-project.vercel.app/",
+    },
+    {
+      id: "tatuagem-3",
+      title: "Landing Page Estúdio de Tatuagem 3",
+      description: "",
+      image: tatuador3,
+      tags: [],
+      demoUrl: "https://hayasaka5.github.io/",
+    },
+    {
+      id: "tatuagem-4",
+      title: "Landing Page Estúdio de Tatuagem 4",
+      description: "",
+      image: tatuador4,
+      tags: [],
+      demoUrl: "https://5a-tattoo.vercel.app/",
+    },
+    {
+      id: "tatuagem-5",
+      title: "Landing Page Estúdio de Tatuagem 5",
+      description: "",
+      image: tatuador5,
+      tags: [],
+      demoUrl: "https://n-icko.github.io/testTask__TattooLandingPage/",
+    },
+    {
+      id: "tatuagem-6",
+      title: "Landing Page Estúdio de Tatuagem 6",
+      description: "",
+      image: tatuador6,
+      tags: [],
+      demoUrl: "http://neuroticoutsider.github.io/Tattoo_site/",
+    },
+    {
+      id: "tatuagem-7",
+      title: "Landing Page Estúdio de Tatuagem 7",
+      description: "",
+      image: tatuador7,
+      tags: [],
+      demoUrl: "https://sergkozyrev.github.io/TattooStudio/",
+    },
+    {
+      id: "tatuagem-8",
+      title: "Landing Page Estúdio de Tatuagem 8",
+      description: "",
+      image: tatuador8,
+      tags: [],
+      demoUrl: "https://thetattooden.netlify.app/",
+    },
+    {
+      id: "tatuagem-9",
+      title: "Landing Page Estúdio de Tatuagem 9",
+      description: "",
+      image: tatuador9,
+      tags: [],
+      demoUrl: "https://barbaradamasdev.github.io/Landing-page-Tattoo/",
+    },
+    {
+      id: "tatuagem-10",
+      title: "Landing Page Estúdio de Tatuagem 10",
+      description: "",
+      image: tatuador10,
+      tags: [],
+      demoUrl: "https://dimitarradulov.github.io/tatterz/",
+    },
+    {
+      id: "tatuagem-11",
+      title: "Landing Page Estúdio de Tatuagem 11",
+      description: "",
+      image: tatuador11,
+      tags: [],
+      demoUrl: "https://mag-tattoo-studio.vercel.app/",
+    },
+    {
+      id: "tatuagem-12",
+      title: "Landing Page Estúdio de Tatuagem 12",
+      description: "",
+      image: tatuador12,
+      tags: [],
+      demoUrl: "https://colaresamanda.github.io/vulpes-tattoo-landing-page/",
+    },
+    {
+      id: "tatuagem-13",
+      title: "Landing Page Estúdio de Tatuagem 13",
+      description: "",
+      image: tatuador13,
+      tags: [],
+      demoUrl: "https://kronictattoo.netlify.app/",
+    },
+    {
+      id: "tatuagem-14",
+      title: "Landing Page Estúdio de Tatuagem 14",
+      description: "",
+      image: tatuador14,
+      tags: [],
+      demoUrl: "https://g-roid.github.io/squid-ink-tattoo/",
+    },
+    {
+      id: "tatuagem-15",
+      title: "Landing Page Estúdio de Tatuagem 15",
+      description: "",
+      image: tatuador15,
+      tags: [],
+      demoUrl: "https://estudio-mari-tattoo-art.vercel.app/",
+    },
+    {
+      id: "tatuagem-16",
+      title: "Landing Page Estúdio de Tatuagem 16",
+      description: "",
+      image: tatuador16,
+      tags: [],
+      demoUrl: "https://vers-is.github.io/tattoo_landing/",
+    },
+    {
+      id: "tatuagem-17",
+      title: "Landing Page Estúdio de Tatuagem 17",
+      description: "",
+      image: tatuador17,
+      tags: [],
+      demoUrl: "https://obiski-tattoo-shop.vercel.app/",
+    },
+    {
+      id: "tatuagem-18",
+      title: "Landing Page Estúdio de Tatuagem 18",
+      description: "",
+      image: tatuador18,
+      tags: [],
+      demoUrl: "https://adoring-booth-60e449.netlify.app/",
+    },
+    {
+      id: "tatuagem-19",
+      title: "Landing Page Estúdio de Tatuagem 19",
+      description: "",
+      image: tatuador19,
+      tags: [],
+      demoUrl: "https://your-art.vercel.app/",
+    },
+    {
+      id: "tatuagem-20",
+      title: "Landing Page Estúdio de Tatuagem 20",
+      description: "",
+      image: tatuador20,
+      tags: [],
+      demoUrl: "https://artenapele.vercel.app/",
+    },
+    {
+      id: "tatuagem-21",
+      title: "Landing Page Estúdio de Tatuagem 21",
+      description: "",
+      image: tatuador21,
+      tags: [],
+      demoUrl: "https://ratotattoo.vercel.app/",
+    },
+  ],
+  petshop: [
+    {
+      id: "petshop-1",
+      title: "Landing Page Pet Shop 1",
+      description: "",
+      image: petshop1,
+      tags: [],
+      demoUrl: "https://civetrosario.com/",
+    },
+    {
+      id: "petshop-2",
+      title: "Landing Page Pet Shop 2",
+      description: "",
+      image: petshop2,
+      tags: [],
+      demoUrl: "https://centro-veterinario-pereyra.vercel.app/",
+    },
+    {
+      id: "petshop-3",
+      title: "Landing Page Pet Shop 3",
+      description: "",
+      image: petshop3,
+      tags: [],
+      demoUrl: "https://tailwag.netlify.app/",
+    },
+    {
+      id: "petshop-4",
+      title: "Landing Page Pet Shop 4",
+      description: "",
+      image: petshop4,
+      tags: [],
+      demoUrl: "https://veterinary-mannan.netlify.app/",
+    },
+    {
+      id: "petshop-5",
+      title: "Landing Page Pet Shop 5",
+      description: "",
+      image: petshop5,
+      tags: [],
+      demoUrl: "https://rafaelpescara.vercel.app/#contato",
+    },
+    {
+      id: "petshop-6",
+      title: "Landing Page Pet Shop 6",
+      description: "",
+      image: petshop6,
+      tags: [],
+      demoUrl: "https://petshoppy.vercel.app/",
+    },
+    {
+      id: "petshop-7",
+      title: "Landing Page Pet Shop 7",
+      description: "",
+      image: petshop7,
+      tags: [],
+      demoUrl: "https://brunaamaral95.github.io/pet-shop/",
+    },
+    {
+      id: "petshop-8",
+      title: "Landing Page Pet Shop 8",
+      description: "",
+      image: petshop8,
+      tags: [],
+      demoUrl: "https://pet-shop-psi-olive.vercel.app/",
+    },
+    {
+      id: "petshop-9",
+      title: "Landing Page Pet Shop 9",
+      description: "",
+      image: petshop9,
+      tags: [],
+      demoUrl: "https://pet-palace.onrender.com/",
+    },
+    {
+      id: "petshop-10",
+      title: "Landing Page Pet Shop 10",
+      description: "",
+      image: petshop10,
+      tags: [],
+      demoUrl: "https://landing-page-gamma-dun.vercel.app/",
+    },
+    {
+      id: "petshop-11",
+      title: "Landing Page Pet Shop 11",
+      description: "",
+      image: petshop11,
+      tags: [],
+      demoUrl: "https://joseisaacpy.github.io/lp-pet-shop/",
+    },
+    {
+      id: "petshop-12",
+      title: "Landing Page Pet Shop 12",
+      description: "",
+      image: petshop12,
+      tags: [],
+      demoUrl: "https://pet-shop-landing-page-react-tailwind-css.vercel.app/",
+    },
+    {
+      id: "petshop-13",
+      title: "Landing Page Pet Shop 13",
+      description: "",
+      image: petshop13,
+      tags: [],
+      demoUrl: "https://landing-page-gamma-plum-79.vercel.app/",
+    },
+    {
+      id: "petshop-14",
+      title: "Landing Page Pet Shop 14",
+      description: "",
+      image: petshop14,
+      tags: [],
+      demoUrl: "https://landing-page-pet-shop-gamma.vercel.app/",
+    },
+    {
+      id: "petshop-15",
+      title: "Landing Page Pet Shop 15",
+      description: "",
+      image: petshop15,
+      tags: [],
+      demoUrl: "https://landing-page-pet-shop-two.vercel.app/",
+    },
+    {
+      id: "petshop-16",
+      title: "Landing Page Pet Shop 16",
+      description: "",
+      image: petshop16,
+      tags: [],
+      demoUrl: "https://fullstack-jay.github.io/landing-page-pet-shop/",
+    },
+    {
+      id: "petshop-17",
+      title: "Landing Page Pet Shop 17",
+      description: "",
+      image: petshop17,
+      tags: [],
+      demoUrl: "https://guilhermeoln.github.io/page-petshop/",
+    },
+    {
+      id: "petshop-18",
+      title: "Landing Page Pet Shop 18",
+      description: "",
+      image: petshop18,
+      tags: [],
+      demoUrl: "https://owen-codes.github.io/pet-shop-landing-page/",
+    },
+    {
+      id: "petshop-19",
+      title: "Landing Page Pet Shop 19",
+      description: "",
+      image: petshop19,
+      tags: [],
+      demoUrl: "https://pet-shop-beryl.vercel.app/",
+    },
+    {
+      id: "petshop-20",
+      title: "Landing Page Pet Shop 20",
+      description: "",
+      image: petshop20,
+      tags: [],
+      demoUrl: "https://metataly.github.io/PetShopBoutique/",
+    },
+    {
+      id: "petshop-21",
+      title: "Landing Page Pet Shop 21",
+      description: "",
+      image: petshop21,
+      tags: [],
+      demoUrl: "https://cauayoshito.github.io/anipet-landingpage/",
+    },
+    {
+      id: "petshop-22",
+      title: "Landing Page Pet Shop 22",
+      description: "",
+      image: petshop22,
+      tags: [],
+      demoUrl: "https://milton-salgado.github.io/fantastika/",
+    },
+    {
+      id: "petshop-23",
+      title: "Landing Page Pet Shop 23",
+      description: "",
+      image: petshop23,
+      tags: [],
+      demoUrl: "https://beautypets.vercel.app/",
+    },
+  ],
   saude: [
     {
       id: "saude-1",
@@ -351,27 +748,6 @@ export const projects: Record<string, any[]> = {
       image: dentista9,
       tags: [],
       demoUrl: "https://landing-page-dentista-three.vercel.app/",
-    },
-  ],
-  automotivo: [
-    {
-      id: "auto-1",
-      title: "Oficina Mecânica",
-      description:
-        "Layout robusto com orçamentos online e serviços especializados",
-      image:
-        "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop",
-      tags: ["Orçamentos", "Serviços", "Confiança"],
-    },
-  ],
-  construcao: [
-    {
-      id: "const-1",
-      title: "Construtora Premium",
-      description: "Design sólido com portfólio de obras e orçamentos",
-      image:
-        "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=300&fit=crop",
-      tags: ["Portfólio", "Orçamentos", "Obras"],
     },
   ],
   fotografia: [
@@ -570,26 +946,6 @@ export const projects: Record<string, any[]> = {
       demoUrl: "https://app-academia-blue.vercel.app/",
     },
   ],
-  tecnologia: [
-    {
-      id: "tech-1",
-      title: "Empresa de Segurança",
-      description: "Layout moderno com serviços de segurança e monitoramento",
-      image:
-        "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=300&fit=crop",
-      tags: ["Segurança", "Monitoramento", "Tecnologia"],
-    },
-  ],
-  agropecuaria: [
-    {
-      id: "agro-1",
-      title: "Fazenda Sustentável",
-      description: "Design natural com produtos orgânicos e sustentabilidade",
-      image:
-        "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=400&h=300&fit=crop",
-      tags: ["Orgânico", "Sustentável", "Natural"],
-    },
-  ],
   comercio: [
     {
       id: "comercio-1",
@@ -630,25 +986,6 @@ export const projects: Record<string, any[]> = {
       image: lojaRoupa5,
       tags: [],
       demoUrl: "https://site-roupa2.vercel.app/",
-    },
-  ],
-  digital: [
-    {
-      id: "dig-1",
-      title: "Agência Digital",
-      description:
-        "Layout inovador com portfólio interativo e cases de sucesso",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
-      tags: ["Portfólio", "Cases", "Inovação"],
-    },
-    {
-      id: "dig-2",
-      title: "Freelancer Designer",
-      description: "Portfólio pessoal com projetos e contato direto",
-      image:
-        "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=300&fit=crop",
-      tags: ["Pessoal", "Projetos", "Contato"],
     },
   ],
 };

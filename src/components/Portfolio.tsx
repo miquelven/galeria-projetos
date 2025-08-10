@@ -1,31 +1,29 @@
-import React, { useState } from 'react';
-import { Tab } from '@headlessui/react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from "react";
+import { Tab } from "@headlessui/react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   CameraIcon,
   ShoppingBagIcon,
   HeartIcon,
-  WrenchScrewdriverIcon,
   ComputerDesktopIcon,
   BuildingStorefrontIcon,
   ShieldCheckIcon,
-  TruckIcon,
   ScissorsIcon,
-  HomeModernIcon,
   BeakerIcon,
-} from '@heroicons/react/24/outline';
-import ProjectCard from './ProjectCard';
-import { categories, projects } from '../data/portfolioData';
+  PaintBrushIcon,
+} from "@heroicons/react/24/outline";
+import ProjectCard from "./ProjectCard";
+import { categories, projects } from "../data/portfolioData";
 
 const Portfolio: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const categoryIcons = {
+  const categoryIcons: Record<string, any> = {
     restaurantes: BuildingStorefrontIcon,
     beleza: ScissorsIcon,
+    tatuagem: PaintBrushIcon,
+    petshop: HeartIcon,
     saude: HeartIcon,
-    automotivo: TruckIcon,
-    construcao: HomeModernIcon,
     fotografia: CameraIcon,
     fitness: BeakerIcon,
     tecnologia: ShieldCheckIcon,
@@ -40,7 +38,7 @@ const Portfolio: React.FC = () => {
       <header className="glass-effect shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -48,7 +46,7 @@ const Portfolio: React.FC = () => {
             >
               Portfólio de Layouts
             </motion.h1>
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -63,32 +61,38 @@ const Portfolio: React.FC = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="glass-effect rounded-3xl shadow-2xl overflow-hidden">
-          <Tab.Group selectedIndex={selectedCategory} onChange={setSelectedCategory}>
+          <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
             {/* Tabs Navigation */}
             <div className="gradient-bg p-6">
               <Tab.List className="flex flex-wrap gap-2 justify-center">
                 {categories.map((category, index) => {
-                  const IconComponent = categoryIcons[category.id as keyof typeof categoryIcons];
+                  const IconComponent =
+                    categoryIcons[category.id as keyof typeof categoryIcons];
                   return (
                     <Tab key={category.id} className="focus:outline-none">
                       {({ selected }) => (
-                        <motion.button
+                        <motion.div
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           className={`
-                            flex items-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-300
-                            ${selected 
-                              ? 'bg-white text-gray-800 shadow-lg' 
-                              : 'bg-white/20 text-white hover:bg-white/30'
+                            flex items-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 cursor-pointer
+                            ${
+                              selected
+                                ? "bg-white text-gray-800 shadow-lg"
+                                : "bg-white/20 text-white hover:bg-white/30"
                             }
-                            ${window.innerWidth < 768 ? 'px-3 py-2' : ''}
+                            ${window.innerWidth < 768 ? "px-3 py-2" : ""}
                           `}
                         >
                           <IconComponent className="w-5 h-5" />
-                          <span className={`${window.innerWidth < 768 ? 'hidden' : 'block'}`}>
+                          <span
+                            className={`${
+                              window.innerWidth < 768 ? "hidden" : "block"
+                            }`}
+                          >
                             {category.name}
                           </span>
-                        </motion.button>
+                        </motion.div>
                       )}
                     </Tab>
                   );
@@ -101,7 +105,7 @@ const Portfolio: React.FC = () => {
               <AnimatePresence mode="wait">
                 {categories.map((category, index) => (
                   <Tab.Panel key={category.id} className="focus:outline-none">
-                    {selectedCategory === index && (
+                    {selectedIndex === index && (
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -122,11 +126,14 @@ const Portfolio: React.FC = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                           {(() => {
                             const categoryProjects = projects[category.id];
-                            
+
                             // Verifica se a categoria tem projetos reais (não placeholders)
-                            const hasRealProjects = categoryProjects && categoryProjects.length > 0 && 
-                              categoryProjects.some(project => 
-                                !project.image.includes('unsplash.com')
+                            const hasRealProjects =
+                              categoryProjects &&
+                              categoryProjects.length > 0 &&
+                              categoryProjects.some(
+                                (project) =>
+                                  !project.image.includes("unsplash.com")
                               );
 
                             if (!hasRealProjects) {
@@ -145,13 +152,20 @@ const Portfolio: React.FC = () => {
                                       Desenvolvimento em Progresso
                                     </h3>
                                     <p className="text-gray-500 max-w-md mx-auto leading-relaxed">
-                                      Esta categoria está sendo desenvolvida. Em breve teremos layouts incríveis para você!
+                                      Esta categoria está sendo desenvolvida. Em
+                                      breve teremos layouts incríveis para você!
                                     </p>
                                     <div className="mt-6 flex justify-center">
                                       <div className="flex space-x-1">
                                         <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
-                                        <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                                        <div className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                                        <div
+                                          className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
+                                          style={{ animationDelay: "0.1s" }}
+                                        ></div>
+                                        <div
+                                          className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"
+                                          style={{ animationDelay: "0.2s" }}
+                                        ></div>
                                       </div>
                                     </div>
                                   </motion.div>
@@ -160,15 +174,18 @@ const Portfolio: React.FC = () => {
                             }
 
                             return categoryProjects
-                              .filter(project => !project.image.includes('unsplash.com'))
+                              .filter(
+                                (project) =>
+                                  !project.image.includes("unsplash.com")
+                              )
                               .map((project, projectIndex) => (
                                 <motion.div
                                   key={project.id}
                                   initial={{ opacity: 0, y: 30 }}
                                   animate={{ opacity: 1, y: 0 }}
-                                  transition={{ 
-                                    duration: 0.6, 
-                                    delay: projectIndex * 0.1 
+                                  transition={{
+                                    duration: 0.6,
+                                    delay: projectIndex * 0.1,
                                   }}
                                 >
                                   <ProjectCard project={project} />
@@ -190,7 +207,8 @@ const Portfolio: React.FC = () => {
       <footer className="bg-gray-800/95 backdrop-blur-sm text-white py-8 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-gray-300">
-            © 2024 Portfólio de Layouts. Transformando ideias em realidade digital.
+            © 2024 Portfólio de Layouts. Transformando ideias em realidade
+            digital.
           </p>
         </div>
       </footer>
