@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { Tab } from "@headlessui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -17,6 +17,7 @@ import { categories, projects } from "../data/portfolioData";
 
 const Portfolio: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [visibleProjects, setVisibleProjects] = useState(6); // Carrega 6 projetos inicialmente
 
   const categoryIcons: Record<string, any> = {
     restaurantes: BuildingStorefrontIcon,
@@ -31,6 +32,53 @@ const Portfolio: React.FC = () => {
     comercio: ShoppingBagIcon,
     digital: ComputerDesktopIcon,
   };
+
+  // Preload das primeiras imagens da categoria ativa
+  const preloadImages = useCallback((categoryId: string) => {
+    const categoryProjects = projects[categoryId];
+    if (categoryProjects) {
+      categoryProjects.slice(0, 3).forEach((project) => {
+        const img = new Image();
+        img.src = project.image;
+      });
+    }
+  }, []);
+
+  // Memoiza os projetos filtrados para evitar recálculos
+  const filteredProjects = useMemo(() => {
+    const currentCategory = categories[selectedIndex];
+    if (!currentCategory) return [];
+    
+    const categoryProjects = projects[currentCategory.id];
+    if (!categoryProjects) return [];
+    
+    return categoryProjects.filter(
+      (project) => !project.image.includes("unsplash.com")
+    );
+  }, [selectedIndex]);
+
+  const handleTabChange = useCallback((index: number) => {
+    setSelectedIndex(index);
+    setVisibleProjects(6); // Reset para 6 projetos ao trocar de categoria
+    
+    // Preload das imagens da nova categoria
+    const newCategory = categories[index];
+    if (newCategory) {
+      preloadImages(newCategory.id);
+    }
+  }, [preloadImages]);
+
+  const loadMoreProjects = useCallback(() => {
+    setVisibleProjects(prev => prev + 6);
+  }, []);
+
+  // Preload inicial
+  React.useEffect(() => {
+    const initialCategory = categories[0];
+    if (initialCategory) {
+      preloadImages(initialCategory.id);
+    }
+  }, [preloadImages]);
 
   return (
     <div className="min-h-screen">
@@ -61,7 +109,7 @@ const Portfolio: React.FC = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="glass-effect rounded-3xl shadow-2xl overflow-hidden">
-          <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+          <Tab.Group selectedIndex={selectedIndex} onChange={handleTabChange}>
             {/* Tabs Navigation */}
             <div className="gradient-bg p-6">
               <Tab.List className="flex flex-wrap gap-2 justify-center">
@@ -125,16 +173,7 @@ const Portfolio: React.FC = () => {
                         {/* Projects Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                           {(() => {
-                            const categoryProjects = projects[category.id];
-
-                            // Verifica se a categoria tem projetos reais (não placeholders)
-                            const hasRealProjects =
-                              categoryProjects &&
-                              categoryProjects.length > 0 &&
-                              categoryProjects.some(
-                                (project) =>
-                                  !project.image.includes("unsplash.com")
-                              );
+                            const hasRealProjects = filteredProjects.length > 0;
 
                             if (!hasRealProjects) {
                               return (
@@ -173,25 +212,40 @@ const Portfolio: React.FC = () => {
                               );
                             }
 
-                            return categoryProjects
-                              .filter(
-                                (project) =>
-                                  !project.image.includes("unsplash.com")
-                              )
-                              .map((project, projectIndex) => (
-                                <motion.div
-                                  key={project.id}
-                                  initial={{ opacity: 0, y: 30 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{
-                                    duration: 0.6,
-                                    delay: projectIndex * 0.1,
-                                  }}
-                                >
-                                  <ProjectCard project={project} />
-                                </motion.div>
-                              ));
-                          })()}
+                            return (
+                              <>
+                                {filteredProjects
+                                  .slice(0, visibleProjects)
+                                  .map((project, projectIndex) => (
+                                    <motion.div
+                                      key={project.id}
+                                      initial={{ opacity: 0, y: 30 }}
+                                      animate={{ opacity: 1, y: 0 }}
+                                      transition={{
+                                        duration: 0.6,
+                                        delay: projectIndex * 0.1,
+                                      }}
+                                    >
+                                      <ProjectCard project={project} />
+                                    </motion.div>
+                                  ))}
+                                
+                                {/* Load More Button */}
+                                {visibleProjects < filteredProjects.length && (
+                                  <div className="col-span-full flex justify-center mt-8">
+                                    <motion.button
+                                      whileHover={{ scale: 1.05 }}
+                                      whileTap={{ scale: 0.95 }}
+                                      onClick={loadMoreProjects}
+                                      className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300"
+                                    >
+                                      Carregar Mais ({filteredProjects.length - visibleProjects} restantes)
+                                    </motion.button>
+                                  </div>
+                                )}
+                              </>
+                            );
+                          })()} 
                         </div>
                       </motion.div>
                     )}

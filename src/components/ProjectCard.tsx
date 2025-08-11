@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 interface Project {
@@ -16,10 +16,21 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
   const handleImageClick = () => {
     if (project.demoUrl) {
       window.open(project.demoUrl, "_blank");
     }
+  };
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
   };
 
   return (
@@ -29,11 +40,39 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       onClick={handleImageClick}
     >
       {/* Project Image */}
-      <div className="relative h-64 overflow-hidden group">
+      <div className="relative h-64 overflow-hidden group bg-gray-100">
+        {/* Loading Skeleton */}
+        {!imageLoaded && !imageError && (
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse" />
+        )}
+        
+        {/* Error Fallback */}
+        {imageError && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+            <div className="text-center text-gray-500">
+              <svg className="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+              </svg>
+              <p className="text-sm">Imagem não disponível</p>
+            </div>
+          </div>
+        )}
+        
+        {/* Main Image */}
         <img
           src={project.image}
           alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          loading="lazy"
+          decoding="async"
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+          className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${
+            imageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{
+            contentVisibility: 'auto',
+            containIntrinsicSize: '100% 256px'
+          }}
         />
 
         {/* Overlay com efeito hover */}
