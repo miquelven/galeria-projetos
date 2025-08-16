@@ -325,8 +325,8 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 onClick={toggleDarkMode}
                 className={`p-2 rounded-lg transition-colors duration-200 ${
                   darkMode 
-                    ? 'text-gray-300 hover:text-white hover:bg-gray-800' 
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
                 }`}
                 title={darkMode ? 'Modo Claro' : 'Modo Escuro'}
               >
