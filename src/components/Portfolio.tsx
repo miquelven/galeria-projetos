@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Tab } from "@headlessui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -20,6 +20,8 @@ import {
   ChevronUpIcon,
   Bars3Icon,
   XMarkIcon,
+  SunIcon,
+  MoonIcon,
 } from "@heroicons/react/24/outline";
 import ProjectCard from "./ProjectCard";
 import { categories, projects } from "../data/portfolioData";
@@ -33,6 +35,29 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
   const [visibleProjects, setVisibleProjects] = useState(6);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Carregar preferência do localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('darkMode');
+    if (savedTheme) {
+      setDarkMode(JSON.parse(savedTheme));
+    }
+  }, []);
+
+  // Salvar preferência no localStorage
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   // WhatsApp number and message
   const whatsappNumber = "5519989357148";
@@ -219,19 +244,25 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 relative">
+    <div className={`min-h-screen relative transition-colors duration-300 ${
+      darkMode ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+      <header className={`shadow-sm border-b sticky top-0 z-40 transition-colors duration-300 ${
+        darkMode 
+          ? 'bg-gray-900 border-gray-700' 
+          : 'bg-white border-gray-200'
+      }`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="flex items-center space-x-2"
+                className="flex items-center"
               >
-                <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <ComputerDesktopIcon className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                  <ComputerDesktopIcon className="w-6 h-6 text-white" />
                 </div>
               </motion.div>
             </div>
@@ -242,12 +273,16 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 href="#portfolio"
                 onClick={(e) => {
                   e.preventDefault();
-                  const portfolioSection = document.getElementById("portfolio");
+                  const portfolioSection = document.getElementById('portfolio');
                   if (portfolioSection) {
-                    portfolioSection.scrollIntoView({ behavior: "smooth" });
+                    portfolioSection.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+                className={`font-medium transition-colors duration-200 ${
+                  darkMode 
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 Portfólio
               </a>
@@ -257,7 +292,11 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                   e.preventDefault();
                   scrollToPricing();
                 }}
-                className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+                className={`font-medium transition-colors duration-200 ${
+                  darkMode 
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 Preços
               </a>
@@ -265,15 +304,39 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 href="#faq"
                 onClick={(e) => {
                   e.preventDefault();
-                  const faqSection = document.getElementById("faq");
+                  const faqSection = document.getElementById('faq');
                   if (faqSection) {
-                    faqSection.scrollIntoView({ behavior: "smooth" });
+                    faqSection.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+                className={`font-medium transition-colors duration-200 ${
+                  darkMode 
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 FAQ
               </a>
+              
+              {/* Dark Mode Toggle */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleDarkMode}
+                className={`p-2 rounded-lg transition-colors duration-200 ${
+                  darkMode 
+                    ? 'text-gray-300 hover:text-white hover:bg-gray-800' 
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+                title={darkMode ? 'Modo Claro' : 'Modo Escuro'}
+              >
+                {darkMode ? (
+                  <SunIcon className="w-5 h-5" />
+                ) : (
+                  <MoonIcon className="w-5 h-5" />
+                )}
+              </motion.button>
+              
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -286,10 +349,30 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
             </nav>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center gap-2">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleDarkMode}
+                className={`p-2 rounded-lg transition-colors duration-200 ${
+                  darkMode 
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                {darkMode ? (
+                  <SunIcon className="w-5 h-5" />
+                ) : (
+                  <MoonIcon className="w-5 h-5" />
+                )}
+              </motion.button>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gray-600 hover:text-gray-900 p-2"
+                className={`p-2 transition-colors duration-200 ${
+                  darkMode 
+                    ? 'text-gray-300 hover:text-white' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 {mobileMenuOpen ? (
                   <XMarkIcon className="w-6 h-6" />
@@ -385,14 +468,20 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
       </motion.button>
 
       {/* Hero Section */}
-      <section className="bg-white border-b border-gray-200">
+      <section className={`border-b transition-colors duration-300 ${
+        darkMode 
+          ? 'bg-gray-800 border-gray-700' 
+          : 'bg-white border-gray-200'
+      }`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center max-w-4xl mx-auto">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight"
+              className={`text-4xl md:text-6xl font-bold mb-6 leading-tight transition-colors duration-300 ${
+                darkMode ? 'text-white' : 'text-gray-900'
+              }`}
             >
               Landing Pages que
               <span className="text-orange-500"> Convertem</span>
@@ -401,7 +490,9 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-xl text-gray-600 mb-8 leading-relaxed"
+              className={`text-xl mb-8 leading-relaxed transition-colors duration-300 ${
+                darkMode ? 'text-gray-300' : 'text-gray-600'
+              }`}
             >
               Layouts profissionais para impulsionar seu negócio digital.
               <br />
@@ -431,20 +522,31 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
         </div>
       </section>
 
+      {/* Portfolio Section */}
       <section id="portfolio" className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className={`text-3xl font-bold mb-4 transition-colors duration-300 ${
+              darkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               Portfólio por Segmento
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto transition-colors duration-300 ${
+              darkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Explore nossos layouts organizados por área de atuação
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+          <div className={`rounded-2xl shadow-lg border overflow-hidden transition-colors duration-300 ${
+            darkMode 
+              ? 'bg-gray-800 border-gray-700' 
+              : 'bg-white border-gray-200'
+          }`}>
             <Tab.Group selectedIndex={selectedIndex} onChange={handleTabChange}>
-              <Tab.List className="flex flex-wrap bg-gray-50 p-2 gap-2">
+              <Tab.List className={`flex flex-wrap p-2 gap-2 transition-colors duration-300 ${
+                darkMode ? 'bg-gray-700' : 'bg-gray-50'
+              }`}>
                 {categories.map((category, index) => {
                   const IconComponent =
                     categoryIcons[category.id] || ComputerDesktopIcon;
@@ -454,7 +556,11 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                       className={({ selected }) =>
                         `flex items-center gap-2 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
                           selected
-                            ? "bg-gray-900 text-white shadow-md"
+                            ? darkMode
+                              ? "bg-orange-500 text-white shadow-md"
+                              : "bg-gray-900 text-white shadow-md"
+                            : darkMode
+                            ? "text-gray-300 hover:text-white hover:bg-gray-600"
                             : "text-gray-600 hover:text-gray-900 hover:bg-white"
                         }`
                       }
@@ -466,7 +572,9 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 })}
               </Tab.List>
 
-              <Tab.Panels className="p-8">
+              <Tab.Panels className={`p-8 transition-colors duration-300 ${
+                darkMode ? 'bg-gray-800' : 'bg-white'
+              }`}>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={selectedIndex}
@@ -476,10 +584,14 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                     transition={{ duration: 0.3 }}
                   >
                     <div className="mb-8">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                      <h3 className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
+                        darkMode ? 'text-white' : 'text-gray-900'
+                      }`}>
                         {categories[selectedIndex]?.title}
                       </h3>
-                      <p className="text-gray-600">
+                      <p className={`transition-colors duration-300 ${
+                        darkMode ? 'text-gray-300' : 'text-gray-600'
+                      }`}>
                         {categories[selectedIndex]?.description}
                       </p>
                     </div>
@@ -505,7 +617,11 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={loadMoreProjects}
-                          className="bg-gray-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300"
+                          className={`px-8 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                            darkMode
+                              ? 'bg-orange-500 text-white hover:bg-orange-600'
+                              : 'bg-gray-900 text-white hover:bg-gray-800'
+                          }`}
                         >
                           Carregar Mais Projetos
                         </motion.button>
@@ -519,14 +635,18 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
         </div>
       </section>
 
-      <section id="pricing-section" className="py-20 bg-white">
+      <section id="pricing-section" className={`py-20 transition-colors duration-300 ${
+        darkMode ? 'bg-gray-800' : 'bg-white'
+      }`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl font-bold text-gray-900 mb-4"
+              className={`text-4xl font-bold mb-4 transition-colors duration-300 ${
+                darkMode ? 'text-white' : 'text-gray-900'
+              }`}
             >
               Escolha o Plano Ideal
             </motion.h2>
@@ -535,7 +655,9 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-xl text-gray-600 max-w-3xl mx-auto"
+              className={`text-xl max-w-3xl mx-auto transition-colors duration-300 ${
+                darkMode ? 'text-gray-300' : 'text-gray-600'
+              }`}
             >
               Landing pages profissionais que convertem visitantes em clientes.
               Todos os planos incluem design responsivo e otimização para
@@ -551,9 +673,17 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative bg-white rounded-2xl shadow-lg border-2 ${
-                  plan.popular ? "border-orange-500" : "border-gray-200"
-                } p-8 ${plan.popular ? "transform scale-105" : ""}`}
+                className={`relative rounded-2xl shadow-lg border-2 p-8 transition-colors duration-300 ${
+                  darkMode 
+                    ? 'bg-gray-700 border-gray-600' 
+                    : 'bg-white border-gray-200'
+                } ${
+                  plan.popular 
+                    ? darkMode 
+                      ? 'border-orange-500' 
+                      : 'border-orange-500'
+                    : ''
+                } ${plan.popular ? "transform scale-105" : ""}`}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -565,25 +695,35 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 )}
 
                 <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h3 className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
+                    darkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {plan.name}
                   </h3>
-                  <div className="text-4xl font-bold text-gray-900 mb-2">
+                  <div className={`text-4xl font-bold mb-2 transition-colors duration-300 ${
+                    darkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {plan.price}
                   </div>
-                  <p className="text-gray-600">{plan.description}</p>
+                  <p className={`transition-colors duration-300 ${
+                    darkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>{plan.description}</p>
                 </div>
 
                 <div className="space-y-4 mb-8">
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">
+                    <h4 className={`font-semibold mb-3 transition-colors duration-300 ${
+                      darkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       ✅ Incluído:
                     </h4>
                     <ul className="space-y-2">
                       {plan.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start">
                           <CheckCircleIcon className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-700">{feature}</span>
+                          <span className={`transition-colors duration-300 ${
+                            darkMode ? 'text-gray-300' : 'text-gray-700'
+                          }`}>{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -591,7 +731,9 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
 
                   {plan.notIncluded.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-3">
+                      <h4 className={`font-semibold mb-3 transition-colors duration-300 ${
+                        darkMode ? 'text-white' : 'text-gray-900'
+                      }`}>
                         ❌ Não incluído:
                       </h4>
                       <ul className="space-y-2">
@@ -600,7 +742,9 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                             <div className="h-5 w-5 text-red-400 mr-3 mt-0.5 flex-shrink-0">
                               ✕
                             </div>
-                            <span className="text-gray-500">{feature}</span>
+                            <span className={`transition-colors duration-300 ${
+                              darkMode ? 'text-gray-400' : 'text-gray-500'
+                            }`}>{feature}</span>
                           </li>
                         ))}
                       </ul>
@@ -627,42 +771,64 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
-            className="bg-gray-50 rounded-2xl p-8 mb-16"
+            className={`rounded-2xl p-8 mb-16 transition-colors duration-300 ${
+              darkMode ? 'bg-gray-700' : 'bg-gray-50'
+            }`}
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+            <h3 className={`text-2xl font-bold mb-8 text-center transition-colors duration-300 ${
+              darkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               Serviços Adicionais
             </h3>
             <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-                <div className="text-lg font-semibold text-gray-900 mb-2">
+              <div className={`text-center p-6 rounded-xl shadow hover:shadow-lg transition-all duration-300 ${
+                darkMode ? 'bg-gray-600 hover:bg-gray-500' : 'bg-white'
+              }`}>
+                <div className={`text-lg font-semibold mb-2 transition-colors duration-300 ${
+                  darkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   Domínio + Hospedagem
                 </div>
                 <div className="text-2xl font-bold text-orange-500 mb-2">
                   R$ 199,90
                 </div>
-                <p className="text-gray-600 text-sm">Configuração completa</p>
+                <p className={`text-sm transition-colors duration-300 ${
+                  darkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>Configuração completa</p>
               </div>
 
-              <div className="text-center p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-                <div className="text-lg font-semibold text-gray-900 mb-2">
+              <div className={`text-center p-6 rounded-xl shadow hover:shadow-lg transition-all duration-300 ${
+                darkMode ? 'bg-gray-600 hover:bg-gray-500' : 'bg-white'
+              }`}>
+                <div className={`text-lg font-semibold mb-2 transition-colors duration-300 ${
+                  darkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   Google Analytics / Pixel
                 </div>
                 <div className="text-2xl font-bold text-orange-500 mb-2">
                   R$ 149,90
                 </div>
-                <p className="text-gray-600 text-sm">
+                <p className={`text-sm transition-colors duration-300 ${
+                  darkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>
                   Monitoramento e anúncios
                 </p>
               </div>
 
-              <div className="text-center p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-                <div className="text-lg font-semibold text-gray-900 mb-2">
+              <div className={`text-center p-6 rounded-xl shadow hover:shadow-lg transition-all duration-300 ${
+                darkMode ? 'bg-gray-600 hover:bg-gray-500' : 'bg-white'
+              }`}>
+                <div className={`text-lg font-semibold mb-2 transition-colors duration-300 ${
+                  darkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   Manutenção
                 </div>
                 <div className="text-2xl font-bold text-orange-500 mb-2">
                   R$ 99,90
                 </div>
-                <p className="text-gray-600 text-sm">Atualizações e suporte</p>
+                <p className={`text-sm transition-colors duration-300 ${
+                  darkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>Atualizações e suporte</p>
               </div>
             </div>
           </motion.div>
