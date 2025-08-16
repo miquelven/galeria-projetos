@@ -15,21 +15,43 @@ import {
   StarIcon,
   ArrowRightIcon,
   ChatBubbleLeftRightIcon,
+  CurrencyDollarIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
 } from "@heroicons/react/24/outline";
 import ProjectCard from "./ProjectCard";
 import { categories, projects } from "../data/portfolioData";
 
-const Portfolio: React.FC = () => {
+interface PortfolioProps {
+  onNavigateToPricing: () => void;
+}
+
+const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [visibleProjects, setVisibleProjects] = useState(6);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   // WhatsApp number and message
   const whatsappNumber = "5519989357148";
-  const whatsappMessage = "Olá! Gostaria de solicitar um orçamento para uma landing page.";
-  
-  const handleWhatsAppClick = () => {
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-    window.open(url, '_blank');
+  const whatsappMessage =
+    "Olá! Gostaria de solicitar um orçamento para uma landing page.";
+
+  const handleWhatsAppClick = (plan?: string) => {
+    const message = plan
+      ? `Olá! Gostaria de solicitar um orçamento para o plano ${plan}.`
+      : whatsappMessage;
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
+
+  // Scroll to pricing section
+  const scrollToPricing = () => {
+    const pricingSection = document.getElementById("pricing-section");
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const categoryIcons: Record<string, any> = {
@@ -95,25 +117,117 @@ const Portfolio: React.FC = () => {
     }
   }, [preloadImages]);
 
+  const plans = [
+    {
+      name: "Presença Online",
+      price: "R$ 800 - 1.200",
+      description:
+        "Para quem quer marcar presença na internet de forma rápida e profissional",
+      popular: false,
+      features: [
+        "Site de 1 a 3 páginas responsivas",
+        "Design moderno e personalizado",
+        "Integração com WhatsApp",
+        "Formulário de contato",
+        "SEO básico para aparecer no Google",
+        "2 revisões incluídas",
+        "Entrega em 5 dias úteis",
+      ],
+      notIncluded: [
+        "Domínio e hospedagem (suporte para contratar)",
+        "Criação de textos e imagens",
+        "Integração com sistemas externos",
+      ],
+    },
+    {
+      name: "Negócio em Expansão",
+      price: "R$ 1.500 - 2.500",
+      description:
+        "Ideal para empresas que precisam de mais páginas e recursos para gerar vendas",
+      popular: true,
+      features: [
+        "Até 6 páginas personalizadas",
+        "Integração com WhatsApp e redes sociais",
+        "Formulários avançados de captura de leads",
+        "SEO completo",
+        "Google Analytics instalado",
+        "4 revisões incluídas",
+        "Entrega em 7 dias úteis",
+      ],
+      notIncluded: [
+        "Domínio e hospedagem (suporte para contratar)",
+        "Criação de textos e imagens",
+      ],
+    },
+    {
+      name: "Presença Premium",
+      price: "R$ 3.000 - 5.000",
+      description:
+        "Solução completa para empresas que querem vender 24h por dia",
+      popular: false,
+      features: [
+        "Site completo com seções ilimitadas",
+        "Loja virtual com até 50 produtos",
+        "Formulários personalizados",
+        "SEO avançado com análise de concorrência",
+        "Google Analytics e Pixel do Facebook configurados",
+        "Revisões ilimitadas",
+        "Entrega em 10 dias úteis",
+        "Treinamento para gerenciar o site",
+        "Suporte por 3 meses",
+      ],
+      notIncluded: [
+        "Domínio e hospedagem (suporte para contratar)",
+        "Cadastro de mais de 50 produtos",
+      ],
+    },
+  ];
+
+  const faqData = [
+    {
+      question: "O que é o Formulário Avançado de Leads?",
+      answer:
+        "É um formulário que permite captar informações dos visitantes de forma organizada, transformando-os em potenciais clientes.",
+    },
+    {
+      question: "O que inclui a manutenção?",
+      answer:
+        "A manutenção cobre atualizações do site, correção de pequenos bugs, backups periódicos e suporte técnico. É um serviço mensal que garante que seu site funcione sempre bem.",
+    },
+    {
+      question: "Como funciona a integração com Google Analytics / Pixel?",
+      answer:
+        "Instalamos os códigos de acompanhamento no seu site para monitorar visitantes, analisar métricas e otimizar campanhas de marketing digital.",
+    },
+    {
+      question: "Preciso comprar domínio e hospedagem separadamente?",
+      answer:
+        "Sim, o domínio e hospedagem são pagos diretamente pelo cliente, mas incluímos a configuração completa como serviço adicional, garantindo que o site funcione perfeitamente.",
+    },
+    {
+      question: "O site será responsivo?",
+      answer:
+        "Sim! O site vai funcionar e aparecer certinho em qualquer aparelho, seja celular, tablet ou computador.",
+    },
+  ];
+
+  const toggleFAQ = (index: number) => {
+    setOpenFAQ(openFAQ === index ? null : index);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 relative">
       {/* Fixed WhatsApp Button */}
       <motion.button
-        onClick={handleWhatsAppClick}
+        onClick={() => handleWhatsAppClick()}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
         title="Falar no WhatsApp"
       >
-        <svg
-          className="w-6 h-6"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
         </svg>
-        
-        {/* Tooltip */}
         <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
           Falar no WhatsApp
         </div>
@@ -142,40 +256,26 @@ const Portfolio: React.FC = () => {
               <br />
               Designs testados e otimizados para máxima conversão.
             </motion.p>
-            
-            {/* Social Proof */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-wrap justify-center items-center gap-8 mb-12"
-            >
-              <div className="flex items-center gap-2 text-gray-700">
-                <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                <span className="font-semibold">+200 Projetos Entregues</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-700">
-                <StarIcon className="w-5 h-5 text-orange-500 fill-current" />
-                <span className="font-semibold">98% Satisfação</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-700">
-                <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                <span className="font-semibold">Entrega em 48h</span>
-              </div>
-            </motion.div>
 
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleWhatsAppClick}
-              className="bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 mx-auto"
-            >
-              Solicitar Orçamento
-              <ArrowRightIcon className="w-5 h-5" />
-            </motion.button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleWhatsAppClick()}
+                className="bg-orange-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-orange-600 transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <ChatBubbleLeftRightIcon className="w-5 h-5" />
+                Solicitar Orçamento
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={scrollToPricing}
+                className="bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+              >
+                Ver Preços
+              </motion.button>
+            </div>
           </div>
         </div>
       </section>
@@ -194,128 +294,287 @@ const Portfolio: React.FC = () => {
 
           <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
             <Tab.Group selectedIndex={selectedIndex} onChange={handleTabChange}>
-              {/* Category Tabs */}
-              <div className="border-b border-gray-200 p-8 bg-gray-50">
-                <Tab.List className="flex flex-wrap gap-3 justify-center">
-                  {categories.map((category, index) => {
-                    const IconComponent =
-                      categoryIcons[category.id as keyof typeof categoryIcons];
-                    return (
-                      <Tab key={category.id} className="focus:outline-none">
-                        {({ selected }) => (
-                          <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className={`
-                              flex items-center gap-2 px-5 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer border
-                              ${
-                                selected
-                                  ? "bg-gray-900 text-white shadow-lg border-gray-900"
-                                  : "bg-white text-gray-700 hover:bg-gray-100 border-gray-300 hover:border-gray-400"
-                              }
-                            `}
-                          >
-                            <IconComponent className="w-4 h-4" />
-                            <span className="text-sm">{category.name}</span>
-                          </motion.div>
-                        )}
-                      </Tab>
-                    );
-                  })}
-                </Tab.List>
-              </div>
+              <Tab.List className="flex flex-wrap bg-gray-50 p-2 gap-2">
+                {categories.map((category, index) => {
+                  const IconComponent =
+                    categoryIcons[category.id] || ComputerDesktopIcon;
+                  return (
+                    <Tab
+                      key={category.id}
+                      className={({ selected }) =>
+                        `flex items-center gap-2 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                          selected
+                            ? "bg-gray-900 text-white shadow-md"
+                            : "text-gray-600 hover:text-gray-900 hover:bg-white"
+                        }`
+                      }
+                    >
+                      <IconComponent className="w-4 h-4" />
+                      {category.name}
+                    </Tab>
+                  );
+                })}
+              </Tab.List>
 
-              {/* Projects Grid */}
               <Tab.Panels className="p-8">
                 <AnimatePresence mode="wait">
-                  {categories.map((category, index) => (
-                    <Tab.Panel key={category.id} className="focus:outline-none">
-                      {selectedIndex === index && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.3 }}
+                  <motion.div
+                    key={selectedIndex}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="mb-8">
+                      <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                        {categories[selectedIndex]?.title}
+                      </h3>
+                      <p className="text-gray-600">
+                        {categories[selectedIndex]?.description}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {filteredProjects
+                        .slice(0, visibleProjects)
+                        .map((project, index) => (
+                          <motion.div
+                            key={project.id}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.1 }}
+                          >
+                            <ProjectCard project={project} />
+                          </motion.div>
+                        ))}
+                    </div>
+
+                    {visibleProjects < filteredProjects.length && (
+                      <div className="text-center mt-12">
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={loadMoreProjects}
+                          className="bg-gray-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300"
                         >
-                          {/* Category Info */}
-                          <div className="text-center mb-12">
-                            <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                              {category.title}
-                            </h3>
-                            <p className="text-gray-600 text-lg">
-                              {category.description}
-                            </p>
-                          </div>
-
-                          {/* Projects */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {(() => {
-                              const hasRealProjects = filteredProjects.length > 0;
-
-                              if (!hasRealProjects) {
-                                return (
-                                  <div className="col-span-full flex flex-col items-center justify-center py-20">
-                                    <motion.div
-                                      initial={{ opacity: 0, scale: 0.8 }}
-                                      animate={{ opacity: 1, scale: 1 }}
-                                      transition={{ duration: 0.6 }}
-                                      className="text-center"
-                                    >
-                                      <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-                                        <BeakerIcon className="w-10 h-10 text-gray-500" />
-                                      </div>
-                                      <h4 className="text-xl font-semibold text-gray-900 mb-3">
-                                        Em Desenvolvimento
-                                      </h4>
-                                      <p className="text-gray-500 max-w-sm mx-auto">
-                                        Novos layouts para esta categoria em breve!
-                                      </p>
-                                    </motion.div>
-                                  </div>
-                                );
-                              }
-
-                              return (
-                                <>
-                                  {filteredProjects
-                                    .slice(0, visibleProjects)
-                                    .map((project, projectIndex) => (
-                                      <motion.div
-                                        key={project.id}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{
-                                          duration: 0.4,
-                                          delay: projectIndex * 0.05,
-                                        }}
-                                      >
-                                        <ProjectCard project={project} />
-                                      </motion.div>
-                                    ))}
-                                  
-                                  {visibleProjects < filteredProjects.length && (
-                                    <div className="col-span-full flex justify-center mt-12">
-                                      <motion.button
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={loadMoreProjects}
-                                        className="bg-gray-100 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200 border border-gray-300"
-                                      >
-                                        Ver Mais ({filteredProjects.length - visibleProjects} restantes)
-                                      </motion.button>
-                                    </div>
-                                  )}
-                                </>
-                              );
-                            })()} 
-                          </div>
-                        </motion.div>
-                      )}
-                    </Tab.Panel>
-                  ))}
+                          Carregar Mais Projetos
+                        </motion.button>
+                      </div>
+                    )}
+                  </motion.div>
                 </AnimatePresence>
               </Tab.Panels>
             </Tab.Group>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing-section" className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl font-bold text-gray-900 mb-4"
+            >
+              Escolha o Plano Ideal
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+            >
+              Landing pages profissionais que convertem visitantes em clientes.
+              Todos os planos incluem design responsivo e otimização para
+              conversão.
+            </motion.p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {plans.map((plan, index) => (
+              <motion.div
+                key={plan.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className={`relative bg-white rounded-2xl shadow-lg border-2 ${
+                  plan.popular ? "border-orange-500" : "border-gray-200"
+                } p-8 ${plan.popular ? "transform scale-105" : ""}`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <div className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center">
+                      <StarIcon className="h-4 w-4 mr-1" />
+                      Mais Popular
+                    </div>
+                  </div>
+                )}
+
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    {plan.name}
+                  </h3>
+                  <div className="text-4xl font-bold text-gray-900 mb-2">
+                    {plan.price}
+                  </div>
+                  <p className="text-gray-600">{plan.description}</p>
+                </div>
+
+                <div className="space-y-4 mb-8">
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3">
+                      ✅ Incluído:
+                    </h4>
+                    <ul className="space-y-2">
+                      {plan.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start">
+                          <CheckCircleIcon className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-700">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {plan.notIncluded.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">
+                        ❌ Não incluído:
+                      </h4>
+                      <ul className="space-y-2">
+                        {plan.notIncluded.map((feature, idx) => (
+                          <li key={idx} className="flex items-start">
+                            <div className="h-5 w-5 text-red-400 mr-3 mt-0.5 flex-shrink-0">
+                              ✕
+                            </div>
+                            <span className="text-gray-500">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => handleWhatsAppClick(plan.name)}
+                  className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 ${
+                    plan.popular
+                      ? "bg-orange-500 hover:bg-orange-600 text-white"
+                      : "bg-gray-900 hover:bg-gray-800 text-white"
+                  }`}
+                >
+                  Solicitar Orçamento
+                </button>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="bg-gray-50 rounded-2xl p-8 mb-16"
+          >
+            <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+              Serviços Adicionais
+            </h3>
+            <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
+                <div className="text-lg font-semibold text-gray-900 mb-2">
+                  Domínio + Hospedagem
+                </div>
+                <div className="text-2xl font-bold text-orange-500 mb-2">
+                  R$ 199,90
+                </div>
+                <p className="text-gray-600 text-sm">Configuração completa</p>
+              </div>
+
+              <div className="text-center p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
+                <div className="text-lg font-semibold text-gray-900 mb-2">
+                  Google Analytics / Pixel
+                </div>
+                <div className="text-2xl font-bold text-orange-500 mb-2">
+                  R$ 149,90
+                </div>
+                <p className="text-gray-600 text-sm">
+                  Monitoramento e anúncios
+                </p>
+              </div>
+
+              <div className="text-center p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
+                <div className="text-lg font-semibold text-gray-900 mb-2">
+                  Manutenção
+                </div>
+                <div className="text-2xl font-bold text-orange-500 mb-2">
+                  R$ 99,90
+                </div>
+                <p className="text-gray-600 text-sm">Atualizações e suporte</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ Section - Netflix Style */}
+      <section className="py-20 bg-gray-900">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Perguntas Frequentes
+            </h2>
+            <p className="text-xl text-gray-300">
+              Tire suas dúvidas sobre nossos serviços
+            </p>
+          </motion.div>
+
+          <div className="space-y-4">
+            {faqData.map((faq, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-gray-800 rounded-lg overflow-hidden"
+              >
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-700 transition-colors duration-200"
+                >
+                  <span className="text-lg font-semibold text-white">
+                    {faq.question}
+                  </span>
+                  {openFAQ === index ? (
+                    <ChevronUpIcon className="w-6 h-6 text-orange-500" />
+                  ) : (
+                    <ChevronDownIcon className="w-6 h-6 text-gray-400" />
+                  )}
+                </button>
+                {openFAQ === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="px-6 pb-4"
+                  >
+                    <p className="text-gray-300 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </motion.div>
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -326,21 +585,22 @@ const Portfolio: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
+            className="space-y-8"
           >
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Pronto para Impulsionar seu Negócio?
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              Pronto para Transformar seu Negócio?
             </h2>
-            <p className="text-xl text-gray-300 mb-8">
-              Solicite um orçamento personalizado e receba sua landing page em até 48h
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Não perca mais clientes por falta de presença digital
+              profissional. Vamos criar sua landing page hoje mesmo!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={handleWhatsAppClick}
-                className="bg-orange-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-orange-600 transition-all duration-300 shadow-lg flex items-center gap-2 justify-center"
+                onClick={() => handleWhatsAppClick()}
+                className="bg-orange-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-orange-600 transition-all duration-300 flex items-center justify-center gap-2"
               >
                 <ChatBubbleLeftRightIcon className="w-5 h-5" />
                 Solicitar Orçamento
@@ -348,7 +608,7 @@ const Portfolio: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={handleWhatsAppClick}
+                onClick={scrollToPricing}
                 className="border-2 border-gray-300 text-gray-300 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-300 hover:text-gray-900 transition-all duration-300"
               >
                 Ver Preços
@@ -362,7 +622,7 @@ const Portfolio: React.FC = () => {
       <footer className="bg-gray-800 text-white py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-gray-400">
-            © 2024 Landing Pages Pro. Transformando ideias em conversões.
+            © {new Date().getFullYear()}. Transformando ideias em conversões.
           </p>
         </div>
       </footer>
