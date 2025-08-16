@@ -18,6 +18,8 @@ import {
   CurrencyDollarIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import ProjectCard from "./ProjectCard";
 import { categories, projects } from "../data/portfolioData";
@@ -30,6 +32,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [visibleProjects, setVisibleProjects] = useState(6);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // WhatsApp number and message
   const whatsappNumber = "5519989357148";
@@ -217,6 +220,154 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center space-x-2"
+              >
+                <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
+                  <ComputerDesktopIcon className="w-5 h-5 text-white" />
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <a
+                href="#portfolio"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const portfolioSection = document.getElementById("portfolio");
+                  if (portfolioSection) {
+                    portfolioSection.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+                className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+              >
+                Portfólio
+              </a>
+              <a
+                href="#pricing"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToPricing();
+                }}
+                className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+              >
+                Preços
+              </a>
+              <a
+                href="#faq"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const faqSection = document.getElementById("faq");
+                  if (faqSection) {
+                    faqSection.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+                className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+              >
+                FAQ
+              </a>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleWhatsAppClick()}
+                className="bg-orange-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-600 transition-all duration-300 flex items-center gap-2"
+              >
+                <ChatBubbleLeftRightIcon className="w-4 h-4" />
+                Contato
+              </motion.button>
+            </nav>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="text-gray-600 hover:text-gray-900 p-2"
+              >
+                {mobileMenuOpen ? (
+                  <XMarkIcon className="w-6 h-6" />
+                ) : (
+                  <Bars3Icon className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
+                className="md:hidden border-t border-gray-200 py-4"
+              >
+                <div className="flex flex-col space-y-4">
+                  <a
+                    href="#portfolio"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const portfolioSection =
+                        document.getElementById("portfolio");
+                      if (portfolioSection) {
+                        portfolioSection.scrollIntoView({ behavior: "smooth" });
+                      }
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+                  >
+                    Portfólio
+                  </a>
+                  <a
+                    href="#pricing"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToPricing();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+                  >
+                    Preços
+                  </a>
+                  <a
+                    href="#faq"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const faqSection = document.getElementById("faq");
+                      if (faqSection) {
+                        faqSection.scrollIntoView({ behavior: "smooth" });
+                      }
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+                  >
+                    FAQ
+                  </a>
+                  <button
+                    onClick={() => {
+                      handleWhatsAppClick();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="bg-orange-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-600 transition-all duration-300 flex items-center gap-2 w-fit"
+                  >
+                    <ChatBubbleLeftRightIcon className="w-4 h-4" />
+                    Contato
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </header>
+
       {/* Fixed WhatsApp Button */}
       <motion.button
         onClick={() => handleWhatsAppClick()}
@@ -280,8 +431,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section className="py-20">
+      <section id="portfolio" className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -369,7 +519,6 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
         </div>
       </section>
 
-      {/* Pricing Section */}
       <section id="pricing-section" className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -520,8 +669,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
         </div>
       </section>
 
-      {/* FAQ Section - Netflix Style */}
-      <section className="py-20 bg-gray-900">
+      <section id="faq" className="py-20 bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -579,7 +727,6 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="bg-gray-900 py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
