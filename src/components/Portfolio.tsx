@@ -14,6 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 import ProjectCard from "./ProjectCard";
 import { projects } from "../data/portfolioData";
+import logo from "../assets/logo/logo.png";
 
 interface PortfolioProps {
   onNavigateToPricing: () => void;
@@ -180,9 +181,11 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 whileHover={{ scale: 1.05 }}
                 className="flex items-center"
               >
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <ComputerDesktopIcon className="w-6 h-6 text-white" />
-                </div>
+                <img
+                  src={logo}
+                  alt="Logo"
+                  className="h-16 w-auto transition-colors duration-200"
+                />
               </motion.div>
             </div>
 
