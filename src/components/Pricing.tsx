@@ -1,12 +1,12 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 import {
   CheckIcon,
   XMarkIcon,
   StarIcon,
   ArrowLeftIcon,
   ChatBubbleLeftRightIcon,
-} from '@heroicons/react/24/outline';
+} from "@heroicons/react/24/outline";
 
 interface PricingProps {
   onBackToPortfolio: () => void;
@@ -14,73 +14,62 @@ interface PricingProps {
 
 const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
   const whatsappNumber = "5519989357148";
-  
+
   const handleWhatsAppClick = (plan: string) => {
     const message = `Olá! Gostaria de solicitar um orçamento para o plano ${plan}.`;
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
   };
 
   const plans = [
     {
-      name: "Básico",
-      price: "R$ 497",
-      description: "Ideal para pequenos negócios que precisam de presença online",
+      name: "Plano Essencial",
+      price: "R$ 500",
+      description:
+        "Para clientes com orçamento baixo, mas que ainda querem algo profissional.",
       features: [
-        "Landing page responsiva",
-        "Design profissional",
-        "Formulário de contato",
-        "Integração WhatsApp",
-        "Otimização para mobile",
-        "Entrega em 3-5 dias",
+        "1 página simples",
+        "Sobre + serviços",
+        "Contato/WhatsApp",
+        "Responsivo",
+        "Design básico usando seu template",
       ],
-      notIncluded: [
-        "Domínio e hospedagem",
-        "Múltiplas páginas",
-        "Sistema de agendamento",
-      ],
+      notIncluded: [],
       popular: false,
       color: "gray",
     },
     {
-      name: "Profissional",
-      price: "R$ 897",
-      description: "Para negócios que querem se destacar da concorrência",
+      name: "Landing Page Profissional",
+      price: "R$ 1.000",
+      description: "Perfeito para 90% dos sites.",
       features: [
-        "Tudo do plano Básico",
-        "Design premium personalizado",
-        "Até 3 páginas",
-        "Galeria de imagens",
-        "Mapa integrado",
-        "Formulários avançados",
-        "Otimização SEO básica",
-        "Entrega em 5-7 dias",
+        "1 página completa e bonita",
+        "Design personalizado",
+        "Galeria / Portfólio",
+        "SEO básico",
+        "Sessão de depoimentos",
+        "Sessão de serviços",
+        "Chamadas para agendamento",
       ],
-      notIncluded: [
-        "Domínio e hospedagem",
-        "Sistema de agendamento",
-      ],
+      notIncluded: [],
       popular: true,
       color: "orange",
     },
     {
-      name: "Premium",
-      price: "R$ 1.497",
-      description: "Solução completa para negócios que querem máxima conversão",
+      name: "Site Personalizado",
+      price: "R$ 2.500",
+      description: "Excelente para projetos maiores.",
       features: [
-        "Tudo do plano Profissional",
-        "Sistema de agendamento",
-        "Até 5 páginas",
-        "Integração com redes sociais",
-        "Chat online",
-        "Analytics configurado",
-        "Otimização SEO avançada",
-        "1 mês de suporte gratuito",
-        "Entrega em 7-10 dias",
+        "Site completo (3 a 6 páginas)",
+        "Design totalmente exclusivo",
+        "Sistema de agendamento completo",
+        "Otimização de performance",
+        "Ajustes extras",
+        "30 dias de suporte",
       ],
-      notIncluded: [
-        "Domínio e hospedagem",
-      ],
+      notIncluded: [],
       popular: false,
       color: "blue",
     },
@@ -99,7 +88,9 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
               <ArrowLeftIcon className="h-5 w-5 mr-2" />
               Voltar ao Portfólio
             </button>
-            <h1 className="text-2xl font-bold text-gray-900">Preços e Pacotes</h1>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Preços e Pacotes
+            </h1>
             <div></div>
           </div>
         </div>
@@ -113,7 +104,7 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl font-bold text-gray-900 mb-4"
           >
-            Escolha o Plano Ideal
+            Escolha o Serviço Ideal
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -121,8 +112,8 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
             transition={{ delay: 0.1 }}
             className="text-xl text-gray-600 max-w-3xl mx-auto"
           >
-            Landing pages profissionais que convertem visitantes em clientes.
-            Todos os planos incluem design responsivo e otimização para conversão.
+            Sites profissionais que convertem visitantes em clientes. Todos os
+            planos incluem design responsivo e otimização para conversão.
           </motion.p>
         </div>
 
@@ -135,8 +126,8 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               className={`relative bg-white rounded-2xl shadow-lg border-2 ${
-                plan.popular ? 'border-orange-500' : 'border-gray-200'
-              } p-8 ${plan.popular ? 'transform scale-105' : ''}`}
+                plan.popular ? "border-orange-500" : "border-gray-200"
+              } p-8 ${plan.popular ? "transform scale-105" : ""}`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -148,14 +139,20 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
               )}
 
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                <div className="text-4xl font-bold text-gray-900 mb-2">{plan.price}</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  {plan.name}
+                </h3>
+                <div className="text-4xl font-bold text-gray-900 mb-2">
+                  {plan.price}
+                </div>
                 <p className="text-gray-600">{plan.description}</p>
               </div>
 
               <div className="space-y-4 mb-8">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">✅ Incluído:</h4>
+                  <h4 className="font-semibold text-gray-900 mb-3">
+                    ✅ Incluído:
+                  </h4>
                   <ul className="space-y-2">
                     {plan.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start">
@@ -168,7 +165,9 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
 
                 {plan.notIncluded.length > 0 && (
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">❌ Não incluído:</h4>
+                    <h4 className="font-semibold text-gray-900 mb-3">
+                      ❌ Não incluído:
+                    </h4>
                     <ul className="space-y-2">
                       {plan.notIncluded.map((feature, idx) => (
                         <li key={idx} className="flex items-start">
@@ -185,8 +184,8 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
                 onClick={() => handleWhatsAppClick(plan.name)}
                 className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-200 ${
                   plan.popular
-                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
-                    : 'bg-gray-900 hover:bg-gray-800 text-white'
+                    ? "bg-orange-500 hover:bg-orange-600 text-white"
+                    : "bg-gray-900 hover:bg-gray-800 text-white"
                 }`}
               >
                 Solicitar Orçamento
@@ -207,23 +206,39 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Domínio + Hospedagem</div>
-              <div className="text-2xl font-bold text-orange-500 mb-2">R$ 200/ano</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">
+                Domínio + Hospedagem
+              </div>
+              <div className="text-2xl font-bold text-orange-500 mb-2">
+                R$ 200/ano
+              </div>
               <p className="text-gray-600 text-sm">Configuração completa</p>
             </div>
             <div className="text-center">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Manutenção</div>
-              <div className="text-2xl font-bold text-orange-500 mb-2">R$ 150/mês</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">
+                Manutenção
+              </div>
+              <div className="text-2xl font-bold text-orange-500 mb-2">
+                R$ 150/mês
+              </div>
               <p className="text-gray-600 text-sm">Atualizações e suporte</p>
             </div>
             <div className="text-center">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Logo Design</div>
-              <div className="text-2xl font-bold text-orange-500 mb-2">R$ 300</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">
+                Logo Design
+              </div>
+              <div className="text-2xl font-bold text-orange-500 mb-2">
+                R$ 300
+              </div>
               <p className="text-gray-600 text-sm">Logo profissional</p>
             </div>
             <div className="text-center">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Copywriting</div>
-              <div className="text-2xl font-bold text-orange-500 mb-2">R$ 400</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">
+                Copywriting
+              </div>
+              <div className="text-2xl font-bold text-orange-500 mb-2">
+                R$ 400
+              </div>
               <p className="text-gray-600 text-sm">Textos persuasivos</p>
             </div>
           </div>
@@ -241,18 +256,38 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
           </h3>
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">Quanto tempo leva para ficar pronto?</h4>
-              <p className="text-gray-600 mb-4">Entre 3 a 10 dias úteis, dependendo do plano escolhido e complexidade do projeto.</p>
-              
-              <h4 className="font-semibold text-gray-900 mb-2">Posso fazer alterações depois?</h4>
-              <p className="text-gray-600 mb-4">Sim! Oferecemos revisões durante o desenvolvimento e serviços de manutenção pós-entrega.</p>
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Quanto tempo leva para ficar pronto?
+              </h4>
+              <p className="text-gray-600 mb-4">
+                Entre 3 a 10 dias úteis, dependendo do plano escolhido e
+                complexidade do projeto.
+              </p>
+
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Posso fazer alterações depois?
+              </h4>
+              <p className="text-gray-600 mb-4">
+                Sim! Oferecemos revisões durante o desenvolvimento e serviços de
+                manutenção pós-entrega.
+              </p>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">O que não está incluído?</h4>
-              <p className="text-gray-600 mb-4">Domínio, hospedagem e conteúdo (textos e imagens) ficam por conta do cliente, mas podemos ajudar.</p>
-              
-              <h4 className="font-semibold text-gray-900 mb-2">Como é o processo de pagamento?</h4>
-              <p className="text-gray-600">50% no início do projeto e 50% na entrega. Aceitamos PIX, cartão e transferência.</p>
+              <h4 className="font-semibold text-gray-900 mb-2">
+                O que não está incluído?
+              </h4>
+              <p className="text-gray-600 mb-4">
+                Domínio, hospedagem e conteúdo (textos e imagens) ficam por
+                conta do cliente, mas podemos ajudar.
+              </p>
+
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Como é o processo de pagamento?
+              </h4>
+              <p className="text-gray-600">
+                50% no início do projeto e 50% na entrega. Aceitamos PIX, cartão
+                e transferência.
+              </p>
             </div>
           </div>
         </motion.div>
@@ -260,7 +295,7 @@ const Pricing: React.FC<PricingProps> = ({ onBackToPortfolio }) => {
 
       {/* Fixed WhatsApp Button */}
       <button
-        onClick={() => handleWhatsAppClick('Geral')}
+        onClick={() => handleWhatsAppClick("Geral")}
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-200 z-50"
         aria-label="Contato via WhatsApp"
       >

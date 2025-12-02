@@ -1,21 +1,10 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
-import { Tab } from "@headlessui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  CameraIcon,
-  ShoppingBagIcon,
-  HeartIcon,
   ComputerDesktopIcon,
-  BuildingStorefrontIcon,
-  ShieldCheckIcon,
-  ScissorsIcon,
-  BeakerIcon,
-  PaintBrushIcon,
   CheckCircleIcon,
   StarIcon,
-  ArrowRightIcon,
   ChatBubbleLeftRightIcon,
-  CurrencyDollarIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   Bars3Icon,
@@ -24,14 +13,13 @@ import {
   MoonIcon,
 } from "@heroicons/react/24/outline";
 import ProjectCard from "./ProjectCard";
-import { categories, projects } from "../data/portfolioData";
+import { projects } from "../data/portfolioData";
 
 interface PortfolioProps {
   onNavigateToPricing: () => void;
 }
 
 const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [visibleProjects, setVisibleProjects] = useState(6);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -82,141 +70,70 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
     }
   };
 
-  const categoryIcons: Record<string, any> = {
-    restaurantes: BuildingStorefrontIcon,
-    beleza: ScissorsIcon,
-    tatuagem: PaintBrushIcon,
-    petshop: HeartIcon,
-    saude: HeartIcon,
-    fotografia: CameraIcon,
-    fitness: BeakerIcon,
-    tecnologia: ShieldCheckIcon,
-    agropecuaria: BeakerIcon,
-    comercio: ShoppingBagIcon,
-    digital: ComputerDesktopIcon,
-  };
-
-  // Preload das primeiras imagens da categoria ativa
-  const preloadImages = useCallback((categoryId: string) => {
-    const categoryProjects = projects[categoryId];
-    if (categoryProjects) {
-      categoryProjects.slice(0, 3).forEach((project) => {
-        const img = new Image();
-        img.src = project.image;
-      });
-    }
+  const allProjects = useMemo(() => {
+    return Object.values(projects)
+      .flat()
+      .filter((project) => !project.image.includes("unsplash.com"));
   }, []);
 
-  // Memoiza os projetos filtrados para evitar recálculos
-  const filteredProjects = useMemo(() => {
-    const currentCategory = categories[selectedIndex];
-    if (!currentCategory) return [];
-
-    const categoryProjects = projects[currentCategory.id];
-    if (!categoryProjects) return [];
-
-    return categoryProjects.filter(
-      (project) => !project.image.includes("unsplash.com")
-    );
-  }, [selectedIndex]);
-
-  const handleTabChange = useCallback(
-    (index: number) => {
-      setSelectedIndex(index);
-      setVisibleProjects(6);
-
-      const newCategory = categories[index];
-      if (newCategory) {
-        preloadImages(newCategory.id);
-      }
-    },
-    [preloadImages]
-  );
+  // Lista de projetos (todas as categorias)
+  const filteredProjects = allProjects;
 
   const loadMoreProjects = useCallback(() => {
     setVisibleProjects((prev) => prev + 6);
   }, []);
 
-  // Preload inicial
-  React.useEffect(() => {
-    const initialCategory = categories[0];
-    if (initialCategory) {
-      preloadImages(initialCategory.id);
-    }
-  }, [preloadImages]);
+  // Preload inicial removido com listagem global
 
   const plans = [
     {
-      name: "Presença Online",
-      price: "R$ 800 - 1.200",
-      description:
-        "Para quem quer marcar presença na internet de forma rápida e profissional",
+      name: "Plano Essencial",
+      price: "R$ 500",
+      description: "Site básico, mas profissional.",
       popular: false,
       features: [
-        "Site de 1 a 3 páginas responsivas",
-        "Design moderno e personalizado",
-        "Integração com WhatsApp",
-        "Formulário de contato",
-        "SEO básico para aparecer no Google",
-        "2 revisões incluídas",
-        "Entrega em 5 dias úteis",
+        "1 página simples",
+        "Sobre + serviços",
+        "Contato/WhatsApp",
+        "Responsivo",
+        "Design básico usando seu template",
       ],
-      notIncluded: [
-        "Domínio e hospedagem (suporte para contratar)",
-        "Criação de textos e imagens",
-        "Integração com sistemas externos",
-      ],
+      notIncluded: [],
     },
     {
-      name: "Negócio em Expansão",
-      price: "R$ 1.500 - 2.500",
-      description:
-        "Ideal para empresas que precisam de mais páginas e recursos para gerar vendas",
+      name: "Landing Page Profissional",
+      price: "R$ 1.000",
+      description: "Perfeito para 90% dos sites.",
       popular: true,
       features: [
-        "Até 6 páginas personalizadas",
-        "Integração com WhatsApp e redes sociais",
-        "Formulários avançados de captura de leads",
-        "SEO completo",
-        "Google Analytics instalado",
-        "4 revisões incluídas",
-        "Entrega em 7 dias úteis",
+        "1 página completa e bonita",
+        "Design personalizado",
+        "Galeria / Portfólio",
+        "SEO básico",
+        "Sessão de depoimentos",
+        "Sessão de serviços",
+        "Chamadas para agendamento",
       ],
-      notIncluded: [
-        "Domínio e hospedagem (suporte para contratar)",
-        "Criação de textos e imagens",
-      ],
+      notIncluded: [],
     },
     {
-      name: "Presença Premium",
-      price: "R$ 3.000 - 5.000",
-      description:
-        "Solução completa para empresas que querem vender 24h por dia",
+      name: "Site Personalizado",
+      price: "R$ 2.500",
+      description: "Excelente para projetos maiores.",
       popular: false,
       features: [
-        "Site completo com seções ilimitadas",
-        "Loja virtual com até 50 produtos",
-        "Formulários personalizados",
-        "SEO avançado com análise de concorrência",
-        "Google Analytics e Pixel do Facebook configurados",
-        "Revisões ilimitadas",
-        "Entrega em 10 dias úteis",
-        "Treinamento para gerenciar o site",
-        "Suporte por 3 meses",
+        "Site completo (3 a 6 páginas)",
+        "Design totalmente exclusivo",
+        "Sistema de agendamento completo",
+        "Otimização de performance",
+        "Ajustes extras",
+        "30 dias de suporte",
       ],
-      notIncluded: [
-        "Domínio e hospedagem (suporte para contratar)",
-        "Cadastro de mais de 50 produtos",
-      ],
+      notIncluded: [],
     },
   ];
 
   const faqData = [
-    {
-      question: "O que é o Formulário Avançado de Leads?",
-      answer:
-        "É um formulário que permite captar informações dos visitantes de forma organizada, transformando-os em potenciais clientes.",
-    },
     {
       question: "O que inclui a manutenção?",
       answer:
@@ -485,7 +402,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 darkMode ? "text-white" : "text-gray-900"
               }`}
             >
-              Landing Pages que
+              Sites que
               <span className="text-orange-500"> Convertem</span>
             </motion.h1>
             <motion.p
@@ -533,15 +450,8 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 darkMode ? "text-white" : "text-gray-900"
               }`}
             >
-              Modelos de Layouts por Segmento
+              Alguns Layouts Modelos
             </h2>
-            <p
-              className={`text-lg max-w-2xl mx-auto transition-colors duration-300 ${
-                darkMode ? "text-gray-300" : "text-gray-600"
-              }`}
-            >
-              Explore nossos layouts organizados por área de atuação
-            </p>
           </div>
 
           <div
@@ -551,102 +461,39 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 : "bg-white border-gray-200"
             }`}
           >
-            <Tab.Group selectedIndex={selectedIndex} onChange={handleTabChange}>
-              <Tab.List
-                className={`flex flex-wrap p-2 gap-2 transition-colors duration-300 ${
-                  darkMode ? "bg-gray-700" : "bg-gray-50"
-                }`}
-              >
-                {categories.map((category, index) => {
-                  const IconComponent =
-                    categoryIcons[category.id] || ComputerDesktopIcon;
-                  return (
-                    <Tab
-                      key={category.id}
-                      className={({ selected }) =>
-                        `flex items-center gap-2 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                          selected
-                            ? darkMode
-                              ? "bg-orange-500 text-white shadow-md"
-                              : "bg-gray-900 text-white shadow-md"
-                            : darkMode
-                            ? "text-gray-300 hover:text-white hover:bg-gray-600"
-                            : "text-gray-600 hover:text-gray-900 hover:bg-white"
-                        }`
-                      }
+            <div className={`p-8 ${darkMode ? "bg-gray-800" : "bg-white"}`}>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProjects
+                  .slice(0, visibleProjects)
+                  .map((project, index) => (
+                    <motion.div
+                      key={project.id}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.1 }}
                     >
-                      <IconComponent className="w-4 h-4" />
-                      {category.name}
-                    </Tab>
-                  );
-                })}
-              </Tab.List>
+                      <ProjectCard project={project} />
+                    </motion.div>
+                  ))}
+              </div>
 
-              <Tab.Panels
-                className={`p-8 transition-colors duration-300 ${
-                  darkMode ? "bg-gray-800" : "bg-white"
-                }`}
-              >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={selectedIndex}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
+              {visibleProjects < filteredProjects.length && (
+                <div className="text-center mt-12">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={loadMoreProjects}
+                    className={`px-8 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                      darkMode
+                        ? "bg-orange-500 text-white hover:bg-orange-600"
+                        : "bg-gray-900 text-white hover:bg-gray-800"
+                    }`}
                   >
-                    <div className="mb-8">
-                      <h3
-                        className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
-                          darkMode ? "text-white" : "text-gray-900"
-                        }`}
-                      >
-                        {categories[selectedIndex]?.title}
-                      </h3>
-                      <p
-                        className={`transition-colors duration-300 ${
-                          darkMode ? "text-gray-300" : "text-gray-600"
-                        }`}
-                      >
-                        {categories[selectedIndex]?.description}
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {filteredProjects
-                        .slice(0, visibleProjects)
-                        .map((project, index) => (
-                          <motion.div
-                            key={project.id}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.1 }}
-                          >
-                            <ProjectCard project={project} />
-                          </motion.div>
-                        ))}
-                    </div>
-
-                    {visibleProjects < filteredProjects.length && (
-                      <div className="text-center mt-12">
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={loadMoreProjects}
-                          className={`px-8 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                            darkMode
-                              ? "bg-orange-500 text-white hover:bg-orange-600"
-                              : "bg-gray-900 text-white hover:bg-gray-800"
-                          }`}
-                        >
-                          Carregar Mais Projetos
-                        </motion.button>
-                      </div>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-              </Tab.Panels>
-            </Tab.Group>
+                    Carregar Mais Projetos
+                  </motion.button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -667,7 +514,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 darkMode ? "text-white" : "text-gray-900"
               }`}
             >
-              Escolha o Plano Ideal
+              Escolha o Serviço Ideal
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -678,9 +525,8 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 darkMode ? "text-gray-300" : "text-gray-600"
               }`}
             >
-              Landing pages profissionais que convertem visitantes em clientes.
-              Todos os planos incluem design responsivo e otimização para
-              conversão.
+              Sites profissionais que convertem visitantes em clientes. Todos os
+              planos incluem design responsivo e otimização para conversão.
             </motion.p>
           </div>
 
@@ -832,17 +678,17 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                     darkMode ? "text-white" : "text-gray-900"
                   }`}
                 >
-                  Domínio + Hospedagem
+                  Manutenção
                 </div>
                 <div className="text-2xl font-bold text-orange-500 mb-2">
-                  R$ 199,90
+                  R$ 99,90
                 </div>
                 <p
                   className={`text-sm transition-colors duration-300 ${
                     darkMode ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
-                  Configuração completa
+                  Atualizações e suporte
                 </p>
               </div>
 
@@ -880,17 +726,17 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                     darkMode ? "text-white" : "text-gray-900"
                   }`}
                 >
-                  Manutenção
+                  Domínio + Hospedagem
                 </div>
                 <div className="text-2xl font-bold text-orange-500 mb-2">
-                  R$ 99,90
+                  R$ 199,90
                 </div>
                 <p
                   className={`text-sm transition-colors duration-300 ${
                     darkMode ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
-                  Atualizações e suporte
+                  Configuração completa
                 </p>
               </div>
             </div>
@@ -969,7 +815,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
             </h2>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               Não perca mais clientes por falta de presença digital
-              profissional. Vamos criar sua landing page hoje mesmo!
+              profissional. Vamos criar seu site hoje mesmo!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
