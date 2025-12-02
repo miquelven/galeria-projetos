@@ -245,7 +245,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={toggleDarkMode}
-                className={`p-2 rounded-lg transition-colors duration-200 ${
+                className={`hidden p-2 rounded-lg transition-colors duration-200 ${
                   darkMode
                     ? "text-gray-300 hover:text-white"
                     : "text-gray-600 hover:text-gray-900"
@@ -276,7 +276,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={toggleDarkMode}
-                className={`p-2 rounded-lg transition-colors duration-200 ${
+                className={`hidden p-2 rounded-lg transition-colors duration-200 ${
                   darkMode
                     ? "text-gray-300 hover:text-white"
                     : "text-gray-600 hover:text-gray-900"
