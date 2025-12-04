@@ -13,8 +13,8 @@ import {
   MoonIcon,
 } from "@heroicons/react/24/outline";
 import ProjectCard from "./ProjectCard";
-import { projects } from "../data/portfolioData";
-import logo from "../assets/logo/logo.png";
+import { projects, categories } from "../data/portfolioData";
+import logo from "../assets/logo.png";
 
 interface PortfolioProps {
   onNavigateToPricing: () => void;
@@ -25,6 +25,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("todos");
 
   // Carregar preferência do localStorage
   useEffect(() => {
@@ -77,8 +78,12 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
       .filter((project) => !project.image.includes("unsplash.com"));
   }, []);
 
-  // Lista de projetos (todas as categorias)
-  const filteredProjects = allProjects;
+  const filteredProjects = useMemo(() => {
+    if (selectedCategory === "todos") return allProjects;
+    return allProjects.filter(
+      (project: any) => project.category === selectedCategory
+    );
+  }, [allProjects, selectedCategory]);
 
   const loadMoreProjects = useCallback(() => {
     setVisibleProjects((prev) => prev + 6);
@@ -455,6 +460,26 @@ const Portfolio: React.FC<PortfolioProps> = ({ onNavigateToPricing }) => {
             >
               Alguns Layouts Modelos
             </h2>
+            <div className="flex flex-wrap justify-center gap-3 mt-6">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    setSelectedCategory(cat.id);
+                    setVisibleProjects(6);
+                  }}
+                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 border ${
+                    selectedCategory === cat.id
+                      ? "bg-orange-500 text-white border-orange-500"
+                      : darkMode
+                      ? "bg-gray-700 text-gray-200 border-gray-600 hover:bg-gray-600"
+                      : "bg-white text-gray-700 border-gray-200 hover:bg-gray-100"
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div

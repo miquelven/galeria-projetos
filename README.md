@@ -1,23 +1,11 @@
-1 -> https://civetrosario.com/
-2 -> https://centro-veterinario-pereyra.vercel.app/
-3 -> https://tailwag.netlify.app/
-4 -> https://veterinary-mannan.netlify.app/
-5 -> https://rafaelpescara.vercel.app/#contato
-6 -> https://petshoppy.vercel.app/
-7 -> https://brunaamaral95.github.io/pet-shop/
-8 -> https://pet-shop-psi-olive.vercel.app/
-9 -> https://pet-palace.onrender.com/
-10 -> https://landing-page-gamma-dun.vercel.app/
-11 -> https://joseisaacpy.github.io/lp-pet-shop/
-12 -> https://pet-shop-landing-page-react-tailwind-css.vercel.app/
-13 -> https://landing-page-gamma-plum-79.vercel.app/
-14 -> https://landing-page-pet-shop-gamma.vercel.app/
-15 -> https://landing-page-pet-shop-two.vercel.app/
-16 -> https://fullstack-jay.github.io/landing-page-pet-shop/
-17 -> https://guilhermeoln.github.io/page-petshop/
-18 -> https://owen-codes.github.io/pet-shop-landing-page/
-19 -> https://pet-shop-beryl.vercel.app/
-20 -> https://metataly.github.io/PetShopBoutique/
-21 -> https://cauayoshito.github.io/anipet-landingpage/
-22 -> https://milton-salgado.github.io/fantastika/
-23 -> https://beautypets.vercel.app/
+1 -> https://dentista-2-u3h5.vercel.app/ - Dentista 2
+2 -> https://bakery-psi-two.vercel.app/ - Bakery
+3 -> https://tattoo1-flame.vercel.app/ - Tattoo 1
+4 -> https://cabeleireiro-3.vercel.app/ - Cabeleireiro 3
+5 -> https://dentista-1.vercel.app/ - Dentista 1
+6 -> https://tattoo3-ashy.vercel.app/ - Tattoo 3
+7 -> https://cabeleireiro-2.vercel.app/ - Cabeleireiro 2
+8 -> https://dentista-3.vercel.app/ - Dentista 3
+9 -> https://tattoo2-topaz.vercel.app/ - Tattoo 2
+10 -> https://cabeleireiro-1.vercel.app/ - Cabeleireiro 1
+11 -> https://mi-restaurant-whji.vercel.app/ - Restaurante
